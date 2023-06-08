@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func startREPL() {
+func startREPL(cfg *config) {
 	reader := bufio.NewScanner(os.Stdin)
 
 	for {
@@ -22,7 +22,7 @@ func startREPL() {
 			fmt.Printf("Unknown command: %s\n", userInput)
 			continue
 		} else {
-			err := command.callback()
+			err := command.callback(cfg)
 			if err != nil {
 				fmt.Printf("Error: %s\n", err)
 			}
@@ -33,7 +33,7 @@ func startREPL() {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 func getCommands() map[string]cliCommand {

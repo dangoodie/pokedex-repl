@@ -2,17 +2,19 @@ package main
 
 import (
 	"github.com/dangoodie/pokedex-repl/internal/pokeapi"
+
 )
 
+type config struct {
+	pokeAPIClient pokeapi.Client
+	nextLocationAreaURL *string
+	prevLocationAreaURL *string
+}
+
 func main() {
-	pokeAPIClient := pokeapi.NewClient()
-	resp, err := pokeAPIClient.ListLocationAreas()
-	if err != nil {
-		panic(err)
+	cfg := config{
+		pokeAPIClient: pokeapi.NewClient(),
 	}
-	for _, locationArea := range resp.Results {
-		println(locationArea.Name)
-	}
-	
-	// startREPL()
+
+	startREPL(&cfg)
 }
