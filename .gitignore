@@ -21,3 +21,4 @@
 go.work
 
 pokedex-repl
+.env
