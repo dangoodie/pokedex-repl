@@ -8,8 +8,8 @@ import (
 )
 
 func startREPL() {
-
 	reader := bufio.NewScanner(os.Stdin)
+
 	for {
 		fmt.Printf("Pokedex REPL > ")
 		reader.Scan()
@@ -47,6 +47,16 @@ func getCommands() map[string]cliCommand {
 			name:        "exit",
 			description: "Exits the application",
 			callback: commandExit,
+		},
+		"map": {
+			name:        "map",
+			description: "Displays 20 locations. Subsequent calls will display the next 20 locations.",
+			callback: commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Displays previous 20 locations.",
+			callback: commandMapb,
 		},
 	}
 }
