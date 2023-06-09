@@ -62,6 +62,18 @@ func (c *Client) GetLocationPokemon(location string) (LocationAreaResp, error) {
 	endpoint := "location-area/"
 	fullURL := baseURL + endpoint + location
 
+	// check cache
+	dat, ok := c.cache.Get(fullURL)
+	if ok {
+		// cache hit
+		locationAreaResp := LocationAreaResp{}
+		err := json.Unmarshal(dat, &locationAreaResp)
+		if err != nil {
+			return LocationAreaResp{}, err
+		}
+		return locationAreaResp, nil
+	}
+
 	req, err := http.NewRequest("GET", fullURL, nil)
 	if err != nil {
 		return LocationAreaResp{}, err
@@ -77,7 +89,7 @@ func (c *Client) GetLocationPokemon(location string) (LocationAreaResp, error) {
 		return LocationAreaResp{}, err
 	}
 
-	dat, err := io.ReadAll(resp.Body)
+	dat, err = io.ReadAll(resp.Body)
 	if err != nil {
 		return LocationAreaResp{}, err
 	}
@@ -87,6 +99,9 @@ func (c *Client) GetLocationPokemon(location string) (LocationAreaResp, error) {
 	if err != nil {
 		return LocationAreaResp{}, err
 	}
+
+	// cache data
+	c.cache.Add(fullURL, dat)
 
 	return locationAreaResp, nil
 }
