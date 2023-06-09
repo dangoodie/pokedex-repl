@@ -21,7 +21,13 @@ func startREPL(cfg *config) {
 			continue
 		}
 
-		cfg.userFields = userFields
+		cfg.command = &userFields[0]
+		if len(userFields) > 1 {
+			cfg.value = &userFields[1]
+		} else { 
+			cfg.value = nil
+		}
+
 		userCommand := userFields[0]
 
 		command, ok := getCommands()[userCommand]

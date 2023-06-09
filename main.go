@@ -10,7 +10,8 @@ type config struct {
 	pokeAPIClient       pokeapi.Client
 	nextLocationAreaURL *string
 	prevLocationAreaURL *string
-	userFields          []string
+	command             *string
+	value               *string
 	pokedex             []pokeapi.Pokemon
 }
 

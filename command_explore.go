@@ -1,11 +1,19 @@
-package main 
+package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 func commandExplore(cfg *config) error {
+	locationPointer := cfg.value
+	if locationPointer == nil {
+		return errors.New("no value for location to explore")
+	}
+	location := *locationPointer
+
 	fmt.Println("Exploring")
 
-	location := cfg.userFields[1]
 	resp, err := cfg.pokeAPIClient.GetLocationPokemon(location)
 	if err != nil {
 		return err
