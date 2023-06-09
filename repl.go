@@ -45,30 +45,35 @@ type cliCommand struct {
 
 func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{
-		"help": {
-			name:        "help",
-			description: "Displays a help message",
-			callback: commandHelp,
-		},
-		"exit": {
-			name:        "exit",
-			description: "Exits the application",
-			callback: commandExit,
-		},
 		"map": {
 			name:        "map",
 			description: "Displays 20 locations. Subsequent calls will display the next 20 locations.",
-			callback: commandMap,
+			callback:    commandMap,
 		},
 		"mapb": {
 			name:        "mapb",
 			description: "Displays previous 20 locations.",
-			callback: commandMapb,
+			callback:    commandMapb,
 		},
 		"explore": {
-			name: 			"explore",
-			description: 	"Displays pokemon that can be found in a given area.",
-			callback: commandExplore,
+			name:        "explore",
+			description: "Displays pokemon that can be found in a given area.",
+			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Attempts to catch a pokemon.",
+			callback:    commandExplore,
+		},
+		"help": {
+			name:        "help",
+			description: "Displays a help message.",
+			callback:    commandHelp,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Exits the application.",
+			callback:    commandExit,
 		},
 	}
 }

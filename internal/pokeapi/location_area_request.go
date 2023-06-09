@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"errors"
 )
 
 func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
@@ -86,6 +87,7 @@ func (c *Client) GetLocationPokemon(location string) (LocationAreaResp, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
+		err := errors.New(resp.Status)
 		return LocationAreaResp{}, err
 	}
 
