@@ -11,6 +11,7 @@ type config struct {
 	nextLocationAreaURL *string
 	prevLocationAreaURL *string
 	userFields          []string
+	pokedex             []pokeapi.Pokemon
 }
 
 func main() {
