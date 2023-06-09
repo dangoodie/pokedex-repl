@@ -2,7 +2,6 @@ package pokeapi
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 )
@@ -19,7 +18,6 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 	dat, ok := c.cache.Get(fullURL)
 	if ok {
 		// cache hit
-		fmt.Println("cache hit")
 		locationAreasResp := LocationAreasResp{}
 		err := json.Unmarshal(dat, &locationAreasResp)
 		if err != nil {
@@ -27,7 +25,6 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 		}
 		return locationAreasResp, nil
 	}
-	fmt.Println("cache miss")
 
 	req, err := http.NewRequest("GET", fullURL, nil)
 	if err != nil {
@@ -59,4 +56,37 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 	c.cache.Add(fullURL, dat)
 
 	return locationAreasResp, nil
+}
+
+func (c *Client) GetLocationPokemon(location string) (LocationAreaResp, error) {
+	endpoint := "location-area/"
+	fullURL := baseURL + endpoint + location
+
+	req, err := http.NewRequest("GET", fullURL, nil)
+	if err != nil {
+		return LocationAreaResp{}, err
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return LocationAreaResp{}, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return LocationAreaResp{}, err
+	}
+
+	dat, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return LocationAreaResp{}, err
+	}
+
+	locationAreaResp := LocationAreaResp{}
+	err = json.Unmarshal(dat, &locationAreaResp)
+	if err != nil {
+		return LocationAreaResp{}, err
+	}
+
+	return locationAreaResp, nil
 }

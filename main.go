@@ -10,11 +10,12 @@ type config struct {
 	pokeAPIClient       pokeapi.Client
 	nextLocationAreaURL *string
 	prevLocationAreaURL *string
+	userFields          []string
 }
 
 func main() {
 	cfg := config{
-		pokeAPIClient: pokeapi.NewClient(time.Hour),
+		pokeAPIClient: pokeapi.NewClient(time.Minute * 5),
 	}
 
 	startREPL(&cfg)

@@ -14,12 +14,19 @@ func startREPL(cfg *config) {
 		fmt.Printf("Pokedex REPL > ")
 		reader.Scan()
 
-		userInput := reader.Text()
-		userInput = strings.TrimSpace(strings.ToLower(userInput))
-		
-		command, ok := getCommands()[userInput]
+		userInputRaw := reader.Text()
+		userInputCleaned := strings.TrimSpace(strings.ToLower(userInputRaw))
+		userFields := strings.Fields(userInputCleaned)
+		if len(userFields) == 0 {
+			continue
+		}
+
+		cfg.userFields = userFields
+		userCommand := userFields[0]
+
+		command, ok := getCommands()[userCommand]
 		if !ok {
-			fmt.Printf("Unknown command: %s\n", userInput)
+			fmt.Printf("Unknown command: %s\n", userInputRaw)
 			continue
 		} else {
 			err := command.callback(cfg)
@@ -57,6 +64,11 @@ func getCommands() map[string]cliCommand {
 			name:        "mapb",
 			description: "Displays previous 20 locations.",
 			callback: commandMapb,
+		},
+		"explore": {
+			name: 			"explore",
+			description: 	"Displays pokemon that can be found in a given area.",
+			callback: commandExplore,
 		},
 	}
 }
