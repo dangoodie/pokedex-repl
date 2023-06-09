@@ -32,7 +32,7 @@ func commandCatch(cfg *config) error {
 
 	if roll > difficulty {
 		fmt.Printf("You caught %v!\n", pokemon)
-		cfg.pokedex = append(cfg.pokedex, resp)
+		cfg.pokedex[pokemon] = resp
 	} else {
 		fmt.Printf("Oh no! %v escaped!\n", pokemon)
 	}

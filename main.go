@@ -12,12 +12,13 @@ type config struct {
 	prevLocationAreaURL *string
 	command             *string
 	value               *string
-	pokedex             []pokeapi.Pokemon
+	pokedex             map[string]pokeapi.Pokemon
 }
 
 func main() {
 	cfg := config{
 		pokeAPIClient: pokeapi.NewClient(time.Minute * 5),
+		pokedex:       make(map[string]pokeapi.Pokemon),
 	}
 
 	startREPL(&cfg)
